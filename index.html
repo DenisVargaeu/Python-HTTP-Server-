@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokálny Web Server v Pythone s Logovaním</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        h2 {
+            color: #388e3c;
+        }
+        p {
+            margin: 15px 0;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lokálny Web Server v Pythone s Logovaním</h1>
+    
+    <p>Tento projekt vytvára jednoduchý lokálny web server v Pythone, ktorý obsluhuje požiadavky na HTML súbory. Server zaznamenáva logy o pripojení klientov, vrátane <strong>IP adresy</strong> a <strong>požiadavky</strong>. Všetky požiadavky sa ukladajú do súboru <code>server_logs.txt</code>.</p>
+
+    <h2>Funkcionalita</h2>
+    <ul>
+        <li><strong>Obsluha HTML súborov</strong>: Server dokáže obslúžiť HTML súbory v aktuálnom priečinku. Ak zadáš URL ako <code>http://localhost:8080/s.html</code>, server načíta a zobrazí obsah súboru <code>s.html</code>.</li>
+        <li><strong>Logovanie pripojení</strong>: Každé pripojenie a požiadavka sú zaznamenané do súboru <code>server_logs.txt</code>. Záznam obsahuje:
+            <ul>
+                <li><strong>IP adresu klienta</strong></li>
+                <li><strong>Požiadavku</strong> (čo sa klient snažil otvoriť)</li>
+            </ul>
+        </li>
+        <li><strong>Zobrazovanie 404 chyby</strong>: Ak požadovaný súbor neexistuje, server vráti <strong>404 Not Found</strong>.</li>
+    </ul>
+
+    <h2>Požiadavky</h2>
+    <ul>
+        <li><strong>Python 3.x</strong> (so zabudovaným moduly <code>http.server</code>)</li>
+        <li><strong>Raspberry Pi</strong> (alebo akýkoľvek počítač so systémom Linux/Mac/Windows s Pythonom)</li>
+        <li><strong>Prístup k terminálu / príkazovému riadku</strong></li>
+    </ul>
+
+    <h2>Inštalácia</h2>
+    <ol>
+        <li><strong>Nainštaluj Python 3</strong>: Ak nemáš ešte nainštalovaný Python 3, môžeš ho nainštalovať podľa týchto krokov:
+            <ul>
+                <li>Na <strong>Windows</strong>: Stiahni a nainštaluj Python z <a href="https://www.python.org/downloads/" target="_blank">python.org</a>.</li>
+                <li>Na <strong>Linux/Mac</strong>: Python je často predinštalovaný. Skontroluj, či ho máš pomocou príkazu: <code>python3 --version</code>. Ak nie, nainštaluj ho cez balíčkový manažér: <code>sudo apt install python3</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Skopíruj kód do súboru</strong>: Ulož kód servera (Python kód) do súboru s názvom <code>server.py</code>.</li>
+        <li><strong>Vytvor priečinok s HTML súbormi</strong>: Vytvor priečinok, kde budeš mať HTML súbory (napr. <code>index.html</code>, <code>s.html</code> a ďalšie súbory).</li>
+        <li><strong>Spusti server</strong>: Otvor terminál a prejdite do adresára, kde sa nachádzajú súbory. Potom spusti server príkazom:
+            <pre><code>python3 server.py</code></pre>
+        </li>
+        <li><strong>Prístup k serveru</strong>: Otvor webový prehliadač a navštív:
+            <pre><code>http://localhost:8080</code></pre>
+            Ak zadáš <code>http://localhost:8080/s.html</code>, server načíta súbor <code>s.html</code> (ak existuje).
+        </li>
+    </ol>
+
+    <h2>Logy</h2>
+    <p>Logy o požiadavkách sa ukladajú do súboru <code>server_logs.txt</code>. Každý záznam obsahuje:</p>
+    <ul>
+        <li><strong>IP adresu klienta</strong></li>
+        <li><strong>Požiadavku</strong> (čo sa klient snažil otvoriť)</li>
+    </ul>
+    <p>Príklad záznamu v logu:</p>
+    <pre><code>IP: 192.168.1.100 požiadavka: /index.html
+IP: 192.168.1.101 požiadavka: /s.html</code></pre>
+
+    <h2>Možnosti rozšírenia</h2>
+    <ul>
+        <li>Pridať podporu pre ďalšie typy súborov (napr. CSS, obrázky).</li>
+        <li>Zlepšiť logovanie o časových pečiatkach alebo podrobnejších informáciách.</li>
+        <li>Pridať autentifikáciu na zabezpečený prístup k serveru.</li>
+        <li>Podpora pre rôzne porty alebo iné metódy HTTP (POST, PUT, DELETE).</li>
+    </ul>
+
+    <h2>Ďakujem za stiahnutie a používanie!</h2>
+    <p>Ak máte akékoľvek otázky alebo nápady na vylepšenia, neváhajte sa ozvať! 😊</p>
+</body>
+</html>
