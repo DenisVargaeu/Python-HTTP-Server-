@@ -1,41 +1,39 @@
-import os
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+import http.server
+import socketserver
 import logging
+import json
 
-class MalyServer(SimpleHTTPRequestHandler):
-    
+# Načítanie konfigurácie zo súboru
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+PORT = config['port']
+HOST = config['host']
+IP_TO_NAME = config['ip_to_name']
+
+# Nastavenie logovania
+logging.basicConfig(filename='server_log.txt', level=logging.INFO, format='%(message)s')
+
+# Vlastný handler
+class MyHandler(http.server.SimpleHTTPRequestHandler):
     def log_request(self, code='-', size='-'):
-        # Získanie IP adresy klienta
         client_ip = self.client_address[0]
-        # Získanie požiadavky od klienta
-        requested_path = self.path
-        
-        # Zaznamenanie informácií do log súboru
-        logging.basicConfig(filename='server_logs.txt', level=logging.INFO)
-        logging.info(f"IP: {client_ip} požiadavka: {requested_path}")
-        
-        # Zavoláme predvolenú metódu na logovanie
-        super().log_request(code, size)
-    
-    def do_GET(self):
-        # Nastavenie cesty k súborom
-        if self.path == "/":
-            self.path = "/index.html"  # Prednastavená stránka, ak sa nešpecifikuje súbor
+        device_name = IP_TO_NAME.get(client_ip, "Unknown Device")
+        request_path = self.path
+        status_code = code
 
-        # Správne spracovanie cesty k súborom
-        file_path = os.getcwd() + self.path
-        
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            # Zobrazí požadovaný súbor
-            super().do_GET()
-        else:
-            # Ak súbor neexistuje, zobrazí 404
-            self.send_error(404, "Súbor nenájdený")
+        # Formátovaný log
+        log_entry = (
+            f"[{self.log_date_time_string()}] "
+            f"MENO: {device_name} | IP: {client_ip} | SUBOR: {request_path} | STATUS: {status_code}"
+        )
 
-def run():
-    print("🚀 Server beží na http://localhost:8080 ...")
-    server_address = ('', 8080)
-    httpd = HTTPServer(server_address, MalyServer)
+        logging.info(log_entry)
+        print(log_entry)
+
+# Spustenie servera
+Handler = MyHandler
+with socketserver.TCPServer((HOST, PORT), Handler) as httpd:
+    print(f"✅ Server beží na http://{HOST}:{PORT}")
     httpd.serve_forever()
 
-run()
